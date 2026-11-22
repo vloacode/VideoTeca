@@ -1,0 +1,20 @@
+[
+  {
+    "titulo": "Gaussian Splat en After Effects: de un escaneo 3D a partículas",
+    "autor": "Marcos Medel",
+    "usuario": "@medel.fpv",
+    "url": "https://www.instagram.com/p/C7Ee9g9I_-O/",
+    "plataforma": "Instagram",
+    "formato": "Reel",
+    "categoria": "edicion",
+    "descripcion": "Tutorial que convierte escaneos 3D hechos con dron en un efecto de partículas tipo Gaussian Splat dentro de After Effects. El flujo pasa por capturar la escena, procesarla y disolverla en miles de puntos que se mueven como polvo digital.",
+    "herramientas": [
+      "PolyCam — escaneo 3D",
+      "Plugin Gaussian Splatter",
+      "After Effects",
+      "Toma de dron"
+    ],
+    "portada": "La portada recrea el efecto del video: miles de partículas formando una escena 3D.",
+    "guardado": "2026-11-22"
+  }
+]

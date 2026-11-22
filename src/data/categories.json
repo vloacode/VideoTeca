@@ -1,0 +1,44 @@
+[
+  {
+    "id": "ai",
+    "nombre": "AI",
+    "descripcion": "Modelos, prompts, herramientas y automatizaciones.",
+    "icono": "ti-robot",
+    "clase": "vt-ic-ai"
+  },
+  {
+    "id": "comidas",
+    "nombre": "Comidas",
+    "descripcion": "Recetas y platos que quieres intentar en casa.",
+    "icono": "ti-chef-hat",
+    "clase": "vt-ic-food"
+  },
+  {
+    "id": "restaurantes",
+    "nombre": "Restaurantes",
+    "descripcion": "Sitios para visitar, con el video que los recomendó.",
+    "icono": "ti-tools-kitchen-2",
+    "clase": "vt-ic-rest"
+  },
+  {
+    "id": "edicion",
+    "nombre": "Edición de imágenes",
+    "descripcion": "Tutoriales de After Effects, foto y video.",
+    "icono": "ti-movie",
+    "clase": "vt-ic-edit"
+  },
+  {
+    "id": "fotografia",
+    "nombre": "Fotografía",
+    "descripcion": "Técnica, composición, equipo y drones.",
+    "icono": "ti-camera",
+    "clase": "vt-ic-photo"
+  },
+  {
+    "id": "ebanisteria",
+    "nombre": "Ebanistería",
+    "descripcion": "Proyectos, cortes, acabados y taller.",
+    "icono": "ti-hammer",
+    "clase": "vt-ic-wood"
+  }
+]
