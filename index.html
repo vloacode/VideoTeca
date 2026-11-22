@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content="Videoteca de Wil: videos guardados de Instagram, YouTube, TikTok y Facebook, clasificados por tema con una descripción breve." />
+<link rel="icon" href="data:," />
+<title>Videoteca de Wil — Página estática</title>
+
+<!-- Tabler (el framework que escogió Wil) + Tabler Icons + fuentes -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<script>
+  /* Tabler / Bootstrap: sigue el modo del sistema */
+  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    document.documentElement.setAttribute("data-bs-theme", "dark");
+  }
+</script>
+
+<style>
+  :root{
+    --tblr-font-sans-serif:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --tblr-primary:#0b6b4f;
+    --tblr-primary-rgb:11,107,79;
+    --bg:#f3f5ef;
+    --surface:#ffffff;
+    --surface-2:#e9ede1;
+    --ink:#131713;
+    --ink-2:#4a524a;
+    --ink-3:#758073;
+    --line:#d8ddcf;
+    --primary:#0b6b4f;
+    --primary-ink:#ffffff;
+    --primary-soft:#d9efe3;
+    --accent:#ff5c38;
+    --accent-soft:#ffe3da;
+    --amber:#b77900;
+    --amber-soft:#fdeec8;
+    --blue:#1d5fa8;
+    --blue-soft:#dbeafe;
+    --pink:#a4236b;
+    --pink-soft:#fbddef;
+    --wood:#8a5a1e;
+    --wood-soft:#f3e2c7;
+    --shadow:0 18px 40px rgba(19,23,19,.10), 0 2px 8px rgba(19,23,19,.06);
+  }
+  [data-bs-theme="dark"]{
+    --bg:#0d100d;
+    --surface:#171b17;
+    --surface-2:#262d26;
+    --ink:#edf2ea;
+    --ink-2:#b9c2b6;
+    --ink-3:#8b968a;
+    --line:#2c332c;
+    --primary:#5ed6a5;
+    --primary-ink:#06231a;
+    --primary-soft:#173a2d;
+    --accent:#ff8a6b;
+    --accent-soft:#3d231c;
+    --amber:#f2c14e;
+    --amber-soft:#3a3016;
+    --blue:#8ec2ff;
+    --blue-soft:#1b2f47;
+    --pink:#ff9ecf;
+    --pink-soft:#3d1e30;
+    --wood:#e7b87a;
+    --wood-soft:#382a18;
+    --shadow:0 18px 40px rgba(0,0,0,.45), 0 2px 8px rgba(0,0,0,.35);
+  }
+  body{background:var(--bg);color:var(--ink);font-family:var(--tblr-font-sans-serif)}
+  .ti{font-size:1.15em;line-height:1}
+  button,[role="button"]{min-height:44px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:44px 0 8px}
+  .hero-label{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--primary-soft);color:var(--primary);
+    font-weight:800;font-size:.78rem;letter-spacing:.04em;
+    padding:8px 14px;border-radius:999px;
+  }
+  .hero-label .dot{width:8px;height:8px;border-radius:50%;background:var(--primary);flex:none}
+  h1.display{
+    font-family:"Bricolage Grotesque","Manrope",sans-serif;
+    font-size:clamp(2.3rem,6.2vw,4.1rem);
+    line-height:.98;letter-spacing:-.02em;font-weight:800;
+    margin:20px 0 16px;max-width:12ch;color:var(--ink);
+  }
+  h1.display em{font-style:normal;color:var(--primary)}
+  .hero-sub{font-size:1.13rem;color:var(--ink-2);max-width:58ch;margin:0}
+  .hero-sub strong{color:var(--ink)}
+  .stats{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 6px}
+  .stat{
+    background:var(--surface);border:1px solid var(--line);border-radius:20px;
+    padding:14px 18px;min-width:132px;flex:1 1 132px;max-width:230px;
+  }
+  .stat b{font-family:"Bricolage Grotesque",sans-serif;font-size:1.7rem;display:block;line-height:1;color:var(--ink)}
+  .stat span{font-size:.85rem;color:var(--ink-2);font-weight:600}
+
+  /* ---------- SEARCH + FILTERS ---------- */
+  .toolbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);padding:18px 0 12px;margin-top:18px}
+  .search{
+    display:flex;align-items:center;gap:10px;background:var(--surface);
+    border:1.5px solid var(--line);border-radius:999px;padding:6px 8px 6px 18px;
+    box-shadow:var(--shadow);
+  }
+  .search .ti{color:var(--ink-3);flex:none;font-size:22px}
+  .search input{
+    flex:1;border:0;background:transparent;color:var(--ink);
+    font:inherit;font-size:1rem;min-height:44px;outline:none;min-width:0;
+  }
+  .search input::placeholder{color:var(--ink-3)}
+  .search .btn{border-radius:999px;font-weight:800}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .chip{
+    display:inline-flex;align-items:center;gap:7px;cursor:pointer;
+    border:1.5px solid var(--line);background:var(--surface);color:var(--ink);
+    border-radius:999px;padding:9px 16px;font:inherit;font-weight:700;font-size:.9rem;
+    min-height:44px;
+  }
+  .chip .ti{font-size:19px}
+  .chip small{font-weight:800;background:var(--surface-2);border-radius:999px;padding:1px 8px;font-size:.75rem}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .chip[aria-pressed="true"] small{background:rgba(127,127,127,.28)}
+  .result-line{margin:14px 2px 0;color:var(--ink-2);font-size:.92rem;font-weight:600}
+  .result-line b{color:var(--ink)}
+
+  /* ---------- VIDEO CARD (Tabler card) ---------- */
+  .grid{display:grid;gap:22px;padding:10px 0 8px}
+  .card.video-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:28px;
+    overflow:hidden;box-shadow:var(--shadow);
+    display:grid;grid-template-columns:1.05fr 1fr;
+  }
+  .cover{position:relative;min-height:300px;background:#101410;overflow:hidden}
+  .cover canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .cover .play{position:absolute;inset:0;display:grid;place-items:center;text-decoration:none}
+  .cover .play span{
+    width:76px;height:76px;border-radius:50%;background:var(--accent);color:#fff;
+    display:grid;place-items:center;box-shadow:0 14px 34px rgba(0,0,0,.4);
+  }
+  .cover .play span .ti{font-size:36px;margin-left:4px}
+  .cover .plat{
+    position:absolute;top:14px;left:14px;background:rgba(10,12,10,.72);color:#fff;
+    backdrop-filter:blur(6px);border-radius:999px;padding:6px 12px;
+    font-size:.78rem;font-weight:800;display:inline-flex;gap:6px;align-items:center;
+  }
+  .cover .cover-caption{
+    position:absolute;left:14px;right:14px;bottom:12px;color:rgba(255,255,255,.82);
+    font-size:.78rem;font-weight:600;
+  }
+  .card-body{padding:26px;display:flex;flex-direction:column;gap:12px}
+  .cat-tag{
+    align-self:flex-start;display:inline-flex;align-items:center;gap:7px;
+    border-radius:999px;padding:6px 13px;font-size:.8rem;font-weight:800;
+    background:var(--pink-soft);color:var(--pink);
+  }
+  .video-title{
+    font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(1.45rem,3vw,1.9rem);
+    line-height:1.12;letter-spacing:-.01em;margin:0;font-weight:800;color:var(--ink);
+  }
+  .author{display:flex;align-items:center;gap:10px;color:var(--ink-2);font-weight:700;font-size:.95rem}
+  .avatar{
+    width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:var(--primary);color:var(--primary-ink);font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1rem;
+  }
+  .card-body p{margin:0;color:var(--ink-2)}
+  .card-body p strong{color:var(--ink)}
+  .tech{margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;list-style:none}
+  .tech li{background:var(--surface-2);border-radius:10px;padding:6px 11px;font-size:.82rem;font-weight:700;color:var(--ink-2)}
+  .card-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:6px}
+  .btn-x{
+    display:inline-flex;align-items:center;gap:8px;text-decoration:none;cursor:pointer;
+    border-radius:999px;padding:12px 20px;font-weight:800;font-size:.95rem;min-height:48px;border:0;font-family:inherit;
+  }
+  .btn-accent{background:var(--accent);color:#fff}
+  .btn-line{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+  .saved-note{font-size:.85rem;color:var(--ink-3);font-weight:600;display:flex;gap:6px;align-items:center}
+
+  .empty{
+    display:none;background:var(--surface);border:1.5px dashed var(--line);
+    border-radius:28px;padding:38px 26px;text-align:center;
+  }
+  .empty.show{display:block}
+  .empty .ti{font-size:44px;color:var(--ink-3)}
+  .empty h3{font-family:"Bricolage Grotesque",sans-serif;margin:10px 0 6px;font-size:1.3rem;color:var(--ink)}
+  .empty p{color:var(--ink-2);margin:0 auto;max-width:44ch}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:42px 0 6px}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+  .sec-title{font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(1.6rem,3.6vw,2.2rem);letter-spacing:-.01em;margin:0;line-height:1.05;color:var(--ink)}
+  .sec-head p{color:var(--ink-2);margin:0;max-width:52ch}
+
+  .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .cat{
+    text-align:left;cursor:pointer;font:inherit;color:var(--ink);
+    background:var(--surface);border:1px solid var(--line);border-radius:20px;
+    padding:20px;display:flex;flex-direction:column;gap:8px;min-height:132px;
+  }
+  .cat:hover{border-color:var(--ink-3)}
+  .cat .ic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center}
+  .cat .ic .ti{font-size:24px}
+  .cat b{font-family:"Bricolage Grotesque",sans-serif;font-size:1.08rem;line-height:1.15}
+  .cat span.desc{font-size:.86rem;color:var(--ink-2);font-weight:600}
+  .cat .count{margin-top:auto;font-size:.8rem;font-weight:800;color:var(--ink-2)}
+  .ic-ai{background:var(--blue-soft);color:var(--blue)}
+  .ic-food{background:var(--accent-soft);color:var(--accent)}
+  .ic-rest{background:var(--amber-soft);color:var(--amber)}
+  .ic-edit{background:var(--pink-soft);color:var(--pink)}
+  .ic-photo{background:var(--primary-soft);color:var(--primary)}
+  .ic-wood{background:var(--wood-soft);color:var(--wood)}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:26px}
+  .panel h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1.35rem;margin:0 0 6px;line-height:1.15;color:var(--ink)}
+  .panel>p{color:var(--ink-2);margin:0 0 18px}
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+  .steps li{display:flex;gap:14px}
+  .steps .n{
+    width:36px;height:36px;flex:none;border-radius:50%;display:grid;place-items:center;
+    background:var(--ink);color:var(--bg);font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+  }
+  .steps b{display:block;color:inherit}
+  .steps span{color:var(--ink-2);font-size:.94rem}
+  .panel.dark{background:#171a17;color:#edf2ea;border-color:#171a17}
+  .panel.dark h3{color:#fff}
+  .panel.dark>p,.panel.dark .steps span{color:rgba(237,242,234,.72)}
+  .panel.dark .steps .n{background:var(--accent);color:#fff}
+  .panel.dark code{background:rgba(255,255,255,.14);color:#fff;border-radius:7px;padding:1px 7px;font-family:ui-monospace,Menlo,monospace;font-size:.86em}
+  .price-tag{
+    display:inline-flex;align-items:center;gap:8px;background:var(--primary-soft);color:var(--primary);
+    border-radius:999px;padding:8px 14px;font-weight:800;font-size:.88rem;margin-bottom:16px;
+  }
+
+  footer{padding:44px 0 40px;color:var(--ink-3);font-size:.9rem}
+  footer .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:22px}
+  footer b{color:var(--ink-2)}
+  footer a{color:var(--ink-2);font-weight:700}
+
+  @media (max-width:820px){
+    .card.video-card{grid-template-columns:1fr}
+    .cover{min-height:230px}
+    .cats{grid-template-columns:repeat(2,1fr)}
+    .two-col{grid-template-columns:1fr}
+    .stat{max-width:none}
+  }
+  @media (max-width:480px){
+    .cat{min-height:118px;padding:16px}
+    .hero{padding-top:30px}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <!-- HERO -->
+  <header class="hero">
+    <span class="hero-label"><span class="dot"></span> COLECCIÓN PERSONAL · ACTUALIZADA EL 22 DE NOVIEMBRE DE 2026</span>
+    <h1 class="display">Tus videos, <em>clasificados</em> y listos para ver.</h1>
+    <p class="hero-sub">Wil guarda links de todas partes y terminan perdidos entre chats. Aquí no: cada video vive en su categoría — <strong>AI, comidas, restaurantes, edición de imágenes, fotografía, ebanistería</strong> — con una descripción breve de qué trata, para encontrarlo en segundos.</p>
+    <div class="stats" aria-label="Resumen de la colección">
+      <div class="stat"><b>1</b><span>video guardado</span></div>
+      <div class="stat"><b>6</b><span>categorías listas</span></div>
+      <div class="stat"><b>1</b><span>plataforma: Instagram</span></div>
+      <div class="stat"><b>$0</b><span>publicarla en GitHub Pages</span></div>
+    </div>
+  </header>
+
+  <!-- SEARCH + FILTERS -->
+  <div class="toolbar">
+    <form class="search" id="search-form" role="search">
+      <i class="ti ti-search" aria-hidden="true"></i>
+      <input type="search" id="q" placeholder="Busca por título, autor o tema… ej. After Effects" aria-label="Buscar en la videoteca" />
+      <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+    <div class="chips" id="chips" role="group" aria-label="Filtrar por categoría">
+      <button class="chip" type="button" data-cat="todos" aria-pressed="true"><i class="ti ti-layout-grid" aria-hidden="true"></i>Todos <small>1</small></button>
+      <button class="chip" type="button" data-cat="ai" aria-pressed="false"><i class="ti ti-robot" aria-hidden="true"></i>AI <small>0</small></button>
+      <button class="chip" type="button" data-cat="comidas" aria-pressed="false"><i class="ti ti-chef-hat" aria-hidden="true"></i>Comidas <small>0</small></button>
+      <button class="chip" type="button" data-cat="restaurantes" aria-pressed="false"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i>Restaurantes <small>0</small></button>
+      <button class="chip" type="button" data-cat="edicion" aria-pressed="false"><i class="ti ti-movie" aria-hidden="true"></i>Edición de imágenes <small>1</small></button>
+      <button class="chip" type="button" data-cat="fotografia" aria-pressed="false"><i class="ti ti-camera" aria-hidden="true"></i>Fotografía <small>0</small></button>
+      <button class="chip" type="button" data-cat="ebanisteria" aria-pressed="false"><i class="ti ti-hammer" aria-hidden="true"></i>Ebanistería <small>0</small></button>
+    </div>
+    <p class="result-line" id="result-line">Mostrando <b>1 de 1</b> video</p>
+  </div>
+
+  <!-- VIDEO GRID -->
+  <main class="grid" id="grid">
+    <article class="card video-card" data-cat="edicion" data-search="gaussian splat after effects marcos medel medel.fpv edicion de imagenes escaneos 3d dron polycam gaussian splatter particulas tutorial">
+      <div class="cover">
+        <canvas id="splat" aria-hidden="true"></canvas>
+        <span class="plat"><i class="ti ti-brand-instagram" aria-hidden="true"></i>Instagram · Reel</span>
+        <a class="play" href="https://www.instagram.com/p/C7Ee9g9I_-O/" target="_blank" rel="noopener" aria-label="Ver el video de Gaussian Splat en Instagram">
+          <span><i class="ti ti-player-play" aria-hidden="true"></i></span>
+        </a>
+        <span class="cover-caption">La portada recrea el efecto del video: miles de partículas formando una escena 3D.</span>
+      </div>
+      <div class="card-body">
+        <span class="cat-tag"><i class="ti ti-movie" aria-hidden="true"></i>Edición de imágenes</span>
+        <h2 class="video-title">Gaussian Splat en After Effects: de un escaneo 3D a partículas</h2>
+        <div class="author"><span class="avatar" aria-hidden="true">M</span><span>Marcos Medel · @medel.fpv</span></div>
+        <p>Tutorial que convierte <strong>escaneos 3D hechos con dron</strong> en un efecto de partículas tipo <strong>Gaussian Splat</strong> dentro de After Effects. El flujo pasa por capturar la escena, procesarla y disolverla en miles de puntos que se mueven como polvo digital.</p>
+        <ul class="tech">
+          <li>PolyCam — escaneo 3D</li>
+          <li>Plugin Gaussian Splatter</li>
+          <li>After Effects</li>
+          <li>Toma de dron</li>
+        </ul>
+        <div class="card-actions">
+          <a class="btn-x btn-accent" href="https://www.instagram.com/p/C7Ee9g9I_-O/" target="_blank" rel="noopener">Ver en Instagram <i class="ti ti-external-link" aria-hidden="true"></i></a>
+          <button class="btn-x btn-line" type="button" id="copy-link"><i class="ti ti-copy" aria-hidden="true"></i><span id="copy-label">Copiar enlace</span></button>
+        </div>
+        <span class="saved-note"><i class="ti ti-bookmark" aria-hidden="true"></i>Primer video de la colección · Guardado el 22 de noviembre de 2026</span>
+      </div>
+    </article>
+
+    <div class="empty" id="empty" role="status">
+      <i class="ti ti-video-off" aria-hidden="true"></i>
+      <h3 id="empty-title">Todavía no hay videos aquí</h3>
+      <p id="empty-text">Pásale el link a Muse por el chat y lo clasifica, le pone su descripción y aparece en esta categoría en la próxima publicación.</p>
+    </div>
+  </main>
+
+  <!-- CATEGORIES -->
+  <section aria-labelledby="cats-title">
+    <div class="sec-head">
+      <h2 class="sec-title" id="cats-title">Las categorías</h2>
+      <p>Toca una categoría para filtrar la colección. Las que están en cero están listas — solo falta que lleguen los links.</p>
+    </div>
+    <div class="cats">
+      <button class="cat" type="button" data-goto="ai">
+        <span class="ic ic-ai"><i class="ti ti-robot" aria-hidden="true"></i></span>
+        <b>AI</b><span class="desc">Modelos, prompts, herramientas y automatizaciones.</span>
+        <span class="count">0 videos</span>
+      </button>
+      <button class="cat" type="button" data-goto="comidas">
+        <span class="ic ic-food"><i class="ti ti-chef-hat" aria-hidden="true"></i></span>
+        <b>Comidas</b><span class="desc">Recetas y platos que quieres intentar en casa.</span>
+        <span class="count">0 videos</span>
+      </button>
+      <button class="cat" type="button" data-goto="restaurantes">
+        <span class="ic ic-rest"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span>
+        <b>Restaurantes</b><span class="desc">Sitios para visitar, con el video que los recomendó.</span>
+        <span class="count">0 videos</span>
+      </button>
+      <button class="cat" type="button" data-goto="edicion">
+        <span class="ic ic-edit"><i class="ti ti-movie" aria-hidden="true"></i></span>
+        <b>Edición de imágenes</b><span class="desc">Tutoriales de After Effects, foto y video.</span>
+        <span class="count" style="color:var(--primary)">1 video →</span>
+      </button>
+      <button class="cat" type="button" data-goto="fotografia">
+        <span class="ic ic-photo"><i class="ti ti-camera" aria-hidden="true"></i></span>
+        <b>Fotografía</b><span class="desc">Técnica, composición, equipo y drones.</span>
+        <span class="count">0 videos</span>
+      </button>
+      <button class="cat" type="button" data-goto="ebanisteria">
+        <span class="ic ic-wood"><i class="ti ti-hammer" aria-hidden="true"></i></span>
+        <b>Ebanistería</b><span class="desc">Proyectos, cortes, acabados y taller.</span>
+        <span class="count">0 videos</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS + GITHUB PAGES -->
+  <section aria-labelledby="how-title">
+    <div class="sec-head">
+      <h2 class="sec-title" id="how-title">Así crece esta página</h2>
+      <p>Tú no editas nada. Solo mandas links; la clasificación, la descripción y la publicación van por Muse.</p>
+    </div>
+    <div class="two-col">
+      <div class="panel">
+        <h3>El flujo, en 3 pasos</h3>
+        <p>El mismo que ya usaste con el primer video:</p>
+        <ol class="steps">
+          <li><span class="n">1</span><div><b>Tú pasas el link</b><span>De Instagram, YouTube, TikTok o Facebook — de uno en uno o varios juntos, por el chat.</span></div></li>
+          <li><span class="n">2</span><div><b>Muse lo ve y lo clasifica</b><span>Lo ubica en su categoría y escribe la descripción breve: de qué trata, quién lo hizo y qué herramientas usa.</span></div></li>
+          <li><span class="n">3</span><div><b>Se publica aquí</b><span>La página se actualiza con la tarjeta nueva y queda accesible desde cualquier teléfono o computadora.</span></div></li>
+        </ol>
+      </div>
+      <div class="panel dark">
+        <span class="price-tag"><i class="ti ti-world" aria-hidden="true"></i>GitHub Pages · Gratis</span>
+        <h3>¿Y en GitHub Pages?</h3>
+        <p>Sí se puede, y esta página ya está hecha para eso: es <strong>un solo archivo estático</strong>, sin servidor ni base de datos — exactamente lo que GitHub Pages hospeda gratis. Todavía no está publicada allí; estos son los pasos que faltan:</p>
+        <ol class="steps">
+          <li><span class="n">1</span><div><b>Crear el repositorio</b><span>Uno público, por ejemplo <code>videoteca</code>, en tu cuenta de GitHub — para eso hace falta tu usuario de GitHub.</span></div></li>
+          <li><span class="n">2</span><div><b>Subir este <code>index.html</code></b><span>Cada video nuevo es una versión nueva del mismo archivo.</span></div></li>
+          <li><span class="n">3</span><div><b>Activar Pages</b><span>Settings → Pages → rama principal. GitHub te da el enlace público, algo como <code>tu-usuario.github.io/videoteca</code>.</span></div></li>
+        </ol>
+        <p style="margin:18px 0 0">La diferencia con la versión de Muse: la de GitHub es <strong>pública</strong> — cualquiera con el enlace ve la lista. Como los videos guardados ya son públicos, eso casi nunca es problema.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot">
+      <span><b>Videoteca de Wil</b> · Página estática hecha con <a href="https://github.com/tabler/tabler" target="_blank" rel="noopener">Tabler</a>, el framework que escogiste</span>
+      <span>1 video · Última actualización: 22 de noviembre de 2026 · Lista para GitHub Pages</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var chips = Array.prototype.slice.call(document.querySelectorAll("#chips .chip"));
+  var cards = Array.prototype.slice.call(document.querySelectorAll("#grid .card"));
+  var empty = document.getElementById("empty");
+  var emptyTitle = document.getElementById("empty-title");
+  var emptyText = document.getElementById("empty-text");
+  var resultLine = document.getElementById("result-line");
+  var q = document.getElementById("q");
+  var activeCat = "todos";
+
+  var catNames = {
+    ai:"AI", comidas:"Comidas", restaurantes:"Restaurantes",
+    edicion:"Edición de imágenes", fotografia:"Fotografía", ebanisteria:"Ebanistería"
+  };
+
+  function norm(s){ return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
+
+  function apply(){
+    var term = norm(q.value.trim());
+    var shown = 0;
+    cards.forEach(function(card){
+      var okCat = activeCat === "todos" || card.getAttribute("data-cat") === activeCat;
+      var okTerm = !term || norm(card.getAttribute("data-search") + " " + card.textContent).indexOf(term) !== -1;
+      var show = okCat && okTerm;
+      card.style.display = show ? "" : "none";
+      if(show) shown++;
+    });
+    var total = cards.length;
+    resultLine.innerHTML = "Mostrando <b>" + shown + " de " + total + "</b> " + (total === 1 ? "video" : "videos") +
+      (activeCat !== "todos" ? " en <b>" + catNames[activeCat] + "</b>" : "") +
+      (term ? " para “" + q.value.trim() + "”" : "");
+    if(shown === 0){
+      empty.classList.add("show");
+      if(term){
+        emptyTitle.textContent = "Sin resultados para esa búsqueda";
+        emptyText.textContent = "Prueba con otra palabra — el título, el autor o la herramienta que usa el video, como “After Effects”.";
+      } else if(activeCat !== "todos"){
+        emptyTitle.textContent = "Todavía no hay videos en " + catNames[activeCat];
+        emptyText.textContent = "Pásale el link a Muse por el chat y lo clasifica, le pone su descripción y aparece en esta categoría en la próxima publicación.";
+      }
+    } else {
+      empty.classList.remove("show");
+    }
+  }
+
+  function setCat(cat){
+    activeCat = cat;
+    chips.forEach(function(c){ c.setAttribute("aria-pressed", c.getAttribute("data-cat") === cat ? "true" : "false"); });
+    apply();
+  }
+
+  chips.forEach(function(c){
+    c.addEventListener("click", function(){ setCat(c.getAttribute("data-cat")); });
+  });
+  document.querySelectorAll("[data-goto]").forEach(function(el){
+    el.addEventListener("click", function(){
+      setCat(el.getAttribute("data-goto"));
+      document.getElementById("grid").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+  });
+  document.getElementById("search-form").addEventListener("submit", function(e){ e.preventDefault(); apply(); });
+  q.addEventListener("input", apply);
+
+  /* Copiar enlace */
+  var copyBtn = document.getElementById("copy-link");
+  var copyLabel = document.getElementById("copy-label");
+  copyBtn.addEventListener("click", function(){
+    var url = "https://www.instagram.com/p/C7Ee9g9I_-O/";
+    function done(){
+      copyLabel.textContent = "¡Enlace copiado!";
+      setTimeout(function(){ copyLabel.textContent = "Copiar enlace"; }, 2200);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(done, done);
+    } else { done(); }
+  });
+
+  /* Portada: partículas tipo Gaussian Splat */
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var canvas = document.getElementById("splat");
+  if(canvas && canvas.getContext){
+    var ctx = canvas.getContext("2d");
+    var W, H, pts = [], raf = null;
+    var COLORS = ["#5ed6a5","#ff5c38","#f2c14e","#8ec2ff","#ff9ecf","#e8f5e9"];
+    function size(){
+      var r = canvas.parentElement.getBoundingClientRect();
+      W = canvas.width = Math.max(300, Math.floor(r.width));
+      H = canvas.height = Math.max(220, Math.floor(r.height));
+      seed();
+    }
+    function seed(){
+      pts = [];
+      var n = Math.floor(W * H / 2600);
+      for(var i=0;i<n;i++){
+        var a = Math.random()*Math.PI*2, d = Math.pow(Math.random(),0.6);
+        pts.push({
+          x: W/2 + Math.cos(a)*d*W*0.42 + (Math.random()-0.5)*14,
+          y: H/2 + Math.sin(a)*d*H*0.34 + (Math.random()-0.5)*14,
+          r: 1 + Math.random()*3.4,
+          c: COLORS[Math.floor(Math.random()*COLORS.length)],
+          vx:(Math.random()-0.5)*0.35, vy:(Math.random()-0.5)*0.35,
+          ph: Math.random()*Math.PI*2
+        });
+      }
+    }
+    function draw(t){
+      ctx.fillStyle = "#101410";
+      ctx.fillRect(0,0,W,H);
+      for(var i=0;i<pts.length;i++){
+        var p = pts[i];
+        if(!reduce){
+          p.x += p.vx + Math.sin(t/1400 + p.ph)*0.12;
+          p.y += p.vy + Math.cos(t/1700 + p.ph)*0.12;
+          if(p.x<0||p.x>W) p.vx*=-1;
+          if(p.y<0||p.y>H) p.vy*=-1;
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = p.c;
+        ctx.globalAlpha = 0.75;
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if(!reduce) raf = requestAnimationFrame(draw);
+    }
+    size();
+    draw(0);
+    var rt;
+    window.addEventListener("resize", function(){ clearTimeout(rt); rt = setTimeout(function(){ if(raf) cancelAnimationFrame(raf); size(); draw(0); }, 180); });
+  }
+  apply();
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/js/tabler.min.js"></script>
+</body>
+</html>
