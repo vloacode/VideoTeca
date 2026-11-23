@@ -50,13 +50,6 @@ const publicados = computed(() => videos.filter((v) => v.estado === 'publicado')
 const pendientes = total - publicados.value
 const porcentajePublicado = computed(() => (total ? Math.round((publicados.value / total) * 100) : 0))
 
-// Autores únicos para el banner, con el color de su categoría.
-const autores = [...new Map(videos.map((v) => [v.usuario, v])).values()].map((v) => ({
-  usuario: v.usuario,
-  inicial: (v.autor || '?').trim().charAt(0).toUpperCase(),
-  color: catById[v.categoria]?.color ?? 'var(--line)',
-}))
-
 const estadoDe = (v) => estados.find((e) => e.id === v.estado)
 
 const mensajeVacio = computed(() => {
@@ -118,7 +111,6 @@ function setCat(id) {
 
       <header class="vt-hero">
         <div class="vt-hero-text">
-          <p class="vt-kicker">Actualizada el {{ fechaActualizacion }}</p>
           <h1 class="vt-title">Tu videoteca</h1>
           <p class="vt-sub">
             {{ publicados }} {{ publicados === 1 ? 'video publicado' : 'videos publicados' }} de {{ total }} ·
@@ -127,15 +119,6 @@ function setCat(id) {
           <div class="vt-progress vt-progress-big" aria-hidden="true">
             <span :style="{ width: porcentajePublicado + '%' }"></span>
           </div>
-        </div>
-        <div class="vt-avatars" aria-label="Autores de la colección">
-          <span
-            v-for="a in autores"
-            :key="a.usuario"
-            class="vt-avatar"
-            :style="{ background: a.color }"
-            :title="a.usuario"
-          >{{ a.inicial }}</span>
         </div>
       </header>
 
