@@ -12,7 +12,9 @@ Una página para guardar videos de Instagram, YouTube, TikTok y Facebook, clasif
 - **Pipeline de videos:** los videos aparecen en columnas según su estado (en cola, clasificando, revisión, publicado).
 - **Buscador sin distinguir acentos ni mayúsculas.** Busca por título, autor, herramienta, plataforma o categoría.
 - **Filtro por categoría** en el menú del tablero, que aplica a todas las columnas a la vez.
-- **Barra lateral de iconos** en escritorio para saltar entre secciones.
+- **Barra lateral** con categorías y plataformas (en escritorio), y **calendario de publicaciones** a la derecha, por fecha de publicación.
+- **Color por categoría** en la franja de cada tarjeta y en las barras de progreso.
+- **Encabezado que se achica al bajar**, con el color que cambia con el scroll (claro, gris y negro).
 - **Tarjetas de video** con plataforma, categoría, autor, herramientas y dos acciones: ver el video original y copiar el enlace.
 - **Modo claro y oscuro** según la configuración del sistema.
 - **Diseño responsive**, pensado primero para celular.
@@ -97,10 +99,14 @@ VideoTeca/
 │   ├── App.vue             Layout, tablero, pipeline y secciones
 │   ├── style.css           Estilos propios (los colores están en :root)
 │   ├── utils.js            Búsqueda sin acentos y formato de fechas
+│   ├── header-scroll.js    Encabezado que se achica y cambia de color con el scroll
 │   ├── components/
-│   │   ├── AppRail.vue       Barra de iconos de navegación
-│   │   ├── CategoriaCard.vue Tarjeta de cada categoría
-│   │   └── PipelineCard.vue  Tarjeta de cada video en el pipeline
+│   │   ├── Carrusel.vue      Fila horizontal con botones izquierda y derecha
+│   │   ├── AppSidebar.vue    Barra izquierda con categorías y plataformas
+│   │   ├── CalendarPanel.vue Calendario de publicaciones (columna derecha)
+│   │   ├── PipelineCard.vue  Tarjeta de cada video en el pipeline
+│   │   ├── VideoDetalle.vue  Vista con la descripción completa del video
+│   │   └── ParticleCover.vue Portada animada de la vista de detalle
 │   └── data/
 │       ├── videos.json       Los videos guardados
 │       ├── categories.json   Las categorías
