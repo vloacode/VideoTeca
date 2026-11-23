@@ -8,14 +8,14 @@ Una página para guardar videos de Instagram, YouTube, TikTok y Facebook, clasif
 
 ## Características
 
-- **Tablero de categorías:** una tarjeta por categoría con su estado, cuántos videos tiene y su porcentaje del total. Tocarla filtra la colección; tocarla otra vez quita el filtro.
-- **Pipeline de videos:** los videos aparecen en columnas según su estado (en cola, clasificando, revisión, publicado).
-- **Buscador sin distinguir acentos ni mayúsculas.** Busca por título, autor, herramienta, plataforma o categoría.
-- **Filtro por categoría** en el menú del tablero, que aplica a todas las columnas a la vez.
+- **Categorías en fila:** botones horizontales con el nombre y cuántos videos tiene cada una. Tocarlo filtra la colección; tocarlo otra vez quita el filtro.
+- **Pipeline de videos:** los videos se agrupan por categoría, en tarjetas horizontales que se leen de arriba hacia abajo. Cada tarjeta muestra su estado (en cola, clasificando, revisión o publicado).
+- **Buscador sin distinguir acentos ni mayúsculas.** Busca por título, autor, descripción, herramienta, plataforma o categoría.
+- **Filtro por categoría** en el menú de arriba y en los botones de categorías; aplica al pipeline a la vez.
 - **Barra lateral** con categorías y plataformas (en escritorio), y **calendario de publicaciones** a la derecha, por fecha de publicación.
-- **Color por categoría** en la franja de cada tarjeta y en las barras de progreso.
+- **Color por categoría** en cada tarjeta, en el encabezado de cada grupo y en la barra lateral.
 - **Encabezado que se achica al bajar**, con el color que cambia con el scroll (claro, gris y negro).
-- **Tarjetas de video** con plataforma, categoría, autor, herramientas y dos acciones: ver el video original y copiar el enlace.
+- **Tarjetas de video** con plataforma, estado, autor y usuario, y tres acciones: ver el video original, abrir la descripción completa y copiar el enlace. Las herramientas aparecen en la descripción completa.
 - **Modo claro y oscuro** según la configuración del sistema.
 - **Diseño responsive**, pensado primero para celular.
 - **Sin backend ni base de datos.** Todo el contenido está en archivos JSON dentro del proyecto.
@@ -55,13 +55,13 @@ Todo el contenido vive en [`src/data/videos.json`](src/data/videos.json). Para a
 | `estado` | En qué etapa está el video: `cola`, `clasificando`, `revision` o `publicado`. |
 | `guardado` | Fecha en formato `AAAA-MM-DD`. |
 
-Los contadores, los porcentajes, las columnas del pipeline y los filtros se calculan solos a partir de este archivo. No hay que tocar nada más.
+Los contadores, los porcentajes, los grupos del pipeline y los filtros se calculan solos a partir de este archivo. No hay que tocar nada más.
 
 ### Estados del pipeline
 
-Los estados están en [`src/data/estados.json`](src/data/estados.json) y determinan las columnas, en este orden:
+Los estados están en [`src/data/estados.json`](src/data/estados.json). Cada tarjeta muestra su estado como etiqueta:
 
-| `id` | Columna | Cuándo usarlo |
+| `id` | Etiqueta | Cuándo usarlo |
 | --- | --- | --- |
 | `cola` | En cola | El link llegó por el chat y todavía no se clasifica. |
 | `clasificando` | Clasificando | Ya se escribe la descripción y la categoría. |
@@ -82,7 +82,7 @@ Las categorías están en [`src/data/categories.json`](src/data/categories.json)
 
 Categorías actuales: AI, Comidas, Restaurantes, Edición de imágenes, Fotografía y Ebanistería.
 
-Para agregar una nueva, añade un objeto a la lista con esos cinco campos. La categoría aparece en el tablero, en el menú de filtros y en la barra de iconos.
+Para agregar una nueva, añade un objeto a la lista con esos cinco campos. La categoría aparece en la fila de categorías, en el menú de filtros y en la barra lateral.
 
 ---
 
@@ -96,7 +96,7 @@ VideoTeca/
 ├── wrangler.jsonc          Configuración de Cloudflare Workers
 ├── src/
 │   ├── main.js             Arranque de la app y tema claro/oscuro
-│   ├── App.vue             Layout, tablero, pipeline y secciones
+│   ├── App.vue             Layout, categorías, pipeline y secciones
 │   ├── style.css           Estilos propios (los colores están en :root)
 │   ├── utils.js            Búsqueda sin acentos y formato de fechas
 │   ├── header-scroll.js    Encabezado que se achica y cambia de color con el scroll
@@ -110,7 +110,7 @@ VideoTeca/
 │   └── data/
 │       ├── videos.json       Los videos guardados
 │       ├── categories.json   Las categorías
-│       └── estados.json      Las columnas del pipeline
+│       └── estados.json      Las etiquetas de estado de los videos
 ```
 
 ---
