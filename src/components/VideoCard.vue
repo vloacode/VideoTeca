@@ -72,7 +72,7 @@ onBeforeUnmount(() => clearTimeout(temporizador))
         <span class="vt-avatar" aria-hidden="true">{{ inicial }}</span>
         <span>{{ video.autor }} · {{ video.usuario }}</span>
       </div>
-      <p>{{ video.descripcion }}</p>
+      <p class="vt-card-desc">{{ video.descripcion }}</p>
       <ul v-if="video.herramientas?.length" class="vt-tech">
         <li v-for="h in video.herramientas" :key="h">{{ h }}</li>
       </ul>
