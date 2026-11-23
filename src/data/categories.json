@@ -40,5 +40,54 @@
     "descripcion": "Proyectos, cortes, acabados y taller.",
     "icono": "ti-hammer",
     "color": "#78716c"
+  },
+  {
+    "id": "programacion",
+    "nombre": "Programación",
+    "descripcion": "Tutoriales y recursos de programación, frameworks y herramientas de código.",
+    "icono": "ti-code",
+    "color": "#ef4444"
+  },
+  {
+    "id": "viajes",
+    "nombre": "Viajes",
+    "descripcion": "Destinos, guías y escapadas para tu próximo viaje.",
+    "icono": "ti-plane",
+    "color": "#0ea5e9"
+  },
+  {
+    "id": "salud",
+    "nombre": "Salud",
+    "descripcion": "Consejos de salud, nutrición y remedios caseros.",
+    "icono": "ti-heart",
+    "color": "#ec4899"
+  },
+  {
+    "id": "hogar",
+    "nombre": "Hogar",
+    "descripcion": "Trucos caseros, limpieza y cosas para la casa.",
+    "icono": "ti-home",
+    "color": "#14b8a6"
+  },
+  {
+    "id": "entretenimiento",
+    "nombre": "Entretenimiento",
+    "descripcion": "Videos divertidos y de entretenimiento.",
+    "icono": "ti-mood-smile",
+    "color": "#f59e0b"
+  },
+  {
+    "id": "manualidades",
+    "nombre": "Manualidades",
+    "descripcion": "Proyectos DIY, manualidades y regalos hechos a mano.",
+    "icono": "ti-scissors",
+    "color": "#84cc16"
+  },
+  {
+    "id": "construccion",
+    "nombre": "Construcción",
+    "descripcion": "Proyectos de construcción, cemento y acabados.",
+    "icono": "ti-building",
+    "color": "#b45309"
   }
 ]
