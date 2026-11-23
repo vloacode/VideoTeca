@@ -9,17 +9,15 @@
 <title>Videoteca de Wil</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <script>
-  /* Aplica el modo del sistema antes de cargar la app, para evitar un destello de color */
-  (function(){
-    var oscuro = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    document.documentElement.setAttribute("data-bs-theme", oscuro ? "dark" : "light");
-  })();
+  /* Empieza en claro: el tema cambia con el scroll (ver src/theme-scroll.js) */
+  document.documentElement.setAttribute("data-bs-theme", "light");
 </script>
 </head>
 <body>
 <div id="app"></div>
+<div id="tema-pill" class="tema-pill" aria-hidden="true"><i class="ti ti-sun"></i><span>Claro</span></div>
 <script type="module" src="/src/main.js"></script>
 </body>
 </html>

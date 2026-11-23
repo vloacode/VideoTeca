@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cola",
+    "nombre": "En cola",
+    "color": "#94a3b8",
+    "vacio": "Los links que pases por el chat aparecen aquí antes de clasificarse."
+  },
+  {
+    "id": "clasificando",
+    "nombre": "Clasificando",
+    "color": "#3b82f6",
+    "vacio": "Aquí están los videos a los que se les está escribiendo la descripción."
+  },
+  {
+    "id": "revision",
+    "nombre": "Revisión",
+    "color": "#f59e0b",
+    "vacio": "Aquí esperan tu confirmación antes de publicarse."
+  },
+  {
+    "id": "publicado",
+    "nombre": "Publicado",
+    "color": "#22c55e",
+    "vacio": "Todavía no hay videos publicados."
+  }
+]

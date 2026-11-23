@@ -1,6 +1,6 @@
 # Videoteca de Wil
 
-Una página para guardar videos de Instagram, YouTube, TikTok y Facebook, clasificados por tema y con una descripción breve de cada uno. Todo vive en un solo lugar y se encuentra en segundos con el buscador o los filtros.
+Una página para guardar videos de Instagram, YouTube, TikTok y Facebook, clasificados por tema y con una descripción breve de cada uno. Todo vive en un solo lugar: se encuentra en segundos con el buscador o los filtros, y se ve en qué etapa está cada video.
 
 **En vivo:** https://videoteca.vloacode.workers.dev/
 
@@ -8,10 +8,12 @@ Una página para guardar videos de Instagram, YouTube, TikTok y Facebook, clasif
 
 ## Características
 
+- **Tablero de categorías:** una tarjeta por categoría con su estado, cuántos videos tiene y su porcentaje del total. Tocarla filtra la colección; tocarla otra vez quita el filtro.
+- **Pipeline de videos:** los videos aparecen en columnas según su estado (en cola, clasificando, revisión, publicado).
 - **Buscador sin distinguir acentos ni mayúsculas.** Busca por título, autor, herramienta, plataforma o categoría.
-- **Filtros por categoría** en la barra superior y en la barra lateral, con el contador de videos de cada una.
-- **Barra lateral** con las categorías (en escritorio) y **panel derecho** con resumen, videos por categoría, plataformas, autores y últimos guardados.
-- **Tarjetas de video** con portada animada, plataforma, categoría, descripción, herramientas y dos acciones: ver el video original y copiar el enlace.
+- **Filtro por categoría** en el menú del tablero, que aplica a todas las columnas a la vez.
+- **Barra lateral de iconos** en escritorio para saltar entre secciones.
+- **Tarjetas de video** con plataforma, categoría, autor, herramientas y dos acciones: ver el video original y copiar el enlace.
 - **Modo claro y oscuro** según la configuración del sistema.
 - **Diseño responsive**, pensado primero para celular.
 - **Sin backend ni base de datos.** Todo el contenido está en archivos JSON dentro del proyecto.
@@ -33,6 +35,7 @@ Todo el contenido vive en [`src/data/videos.json`](src/data/videos.json). Para a
   "categoria": "edicion",
   "descripcion": "Descripción breve de 1 a 3 oraciones.",
   "herramientas": ["Herramienta 1", "Herramienta 2"],
+  "estado": "revision",
   "guardado": "2026-11-22"
 }
 ```
@@ -47,10 +50,21 @@ Todo el contenido vive en [`src/data/videos.json`](src/data/videos.json). Para a
 | `categoria` | Uno de los `id` de `src/data/categories.json`. |
 | `descripcion` | Una descripción breve en español. |
 | `herramientas` | Lista opcional de herramientas o temas del video. |
-| `portada` | Opcional. Texto corto que aparece sobre la portada. |
+| `estado` | En qué etapa está el video: `cola`, `clasificando`, `revision` o `publicado`. |
 | `guardado` | Fecha en formato `AAAA-MM-DD`. |
 
-Los contadores, los filtros, las estadísticas y el panel derecho se calculan solos a partir de este archivo. No hay que tocar nada más.
+Los contadores, los porcentajes, las columnas del pipeline y los filtros se calculan solos a partir de este archivo. No hay que tocar nada más.
+
+### Estados del pipeline
+
+Los estados están en [`src/data/estados.json`](src/data/estados.json) y determinan las columnas, en este orden:
+
+| `id` | Columna | Cuándo usarlo |
+| --- | --- | --- |
+| `cola` | En cola | El link llegó por el chat y todavía no se clasifica. |
+| `clasificando` | Clasificando | Ya se escribe la descripción y la categoría. |
+| `revision` | Revisión | Esperando tu confirmación antes de publicar. |
+| `publicado` | Publicado | Ya está en la página. |
 
 ---
 
@@ -62,11 +76,11 @@ Las categorías están en [`src/data/categories.json`](src/data/categories.json)
 - `nombre`: el texto que se muestra.
 - `descripcion`: una frase que explica qué entra en esa categoría.
 - `icono`: un ícono de [Tabler Icons](https://tabler.io/icons), por ejemplo `ti-camera`.
-- `clase`: la clase de color del ícono en la página.
+- `color`: el color de fondo del ícono en la tarjeta, en formato `#rrggbb`.
 
 Categorías actuales: AI, Comidas, Restaurantes, Edición de imágenes, Fotografía y Ebanistería.
 
-Para agregar una nueva, añade un objeto a la lista con esos cinco campos. La categoría aparece en la barra lateral, en los filtros y en la sección de categorías.
+Para agregar una nueva, añade un objeto a la lista con esos cinco campos. La categoría aparece en el tablero, en el menú de filtros y en la barra de iconos.
 
 ---
 
@@ -80,17 +94,17 @@ VideoTeca/
 ├── wrangler.jsonc          Configuración de Cloudflare Workers
 ├── src/
 │   ├── main.js             Arranque de la app y tema claro/oscuro
-│   ├── App.vue             Layout principal, buscador y filtros
+│   ├── App.vue             Layout, tablero, pipeline y secciones
 │   ├── style.css           Estilos propios (los colores están en :root)
 │   ├── utils.js            Búsqueda sin acentos y formato de fechas
 │   ├── components/
-│   │   ├── AppSidebar.vue  Barra lateral de categorías
-│   │   ├── SidePanel.vue   Panel derecho con resumen y estadísticas
-│   │   ├── VideoCard.vue   Tarjeta de cada video
-│   │   └── ParticleCover.vue  Portada animada en canvas
+│   │   ├── AppRail.vue       Barra de iconos de navegación
+│   │   ├── CategoriaCard.vue Tarjeta de cada categoría
+│   │   └── PipelineCard.vue  Tarjeta de cada video en el pipeline
 │   └── data/
-│       ├── videos.json     Los videos guardados
-│       └── categories.json Las categorías
+│       ├── videos.json       Los videos guardados
+│       ├── categories.json   Las categorías
+│       └── estados.json      Las columnas del pipeline
 ```
 
 ---
@@ -138,7 +152,7 @@ npm run deploy        # compila y publica
 
 - **La página no muestra un cambio reciente.** Espera 1 a 3 minutos a que termine el despliegue y recarga con `Ctrl + F5` para saltarte la caché del navegador.
 - **`npm install` falla.** Revisa que tengas Node.js 20 o superior con `node --version`.
-- **Un video no aparece.** Revisa que `categoria` coincida con un `id` de `categories.json` y que el JSON no tenga comas de más.
+- **Un video no aparece.** Revisa que `categoria` coincida con un `id` de `categories.json`, que `estado` sea uno de los de `estados.json`, y que el JSON no tenga comas de más.
 
 ---
 
@@ -147,7 +161,7 @@ npm run deploy        # compila y publica
 - [Vue 3](https://vuejs.org/) con [Vite](https://vitejs.dev/)
 - [Tabler](https://github.com/tabler/tabler) (Bootstrap 5) y [Tabler Icons](https://tabler.io/icons)
 - [Cloudflare Workers](https://developers.cloudflare.com/workers/) para el hospedaje
-- Tipografías: Bricolage Grotesque y Manrope, desde Google Fonts
+- Tipografía Inter, desde Google Fonts
 
 ---
 

@@ -1,29 +1,39 @@
 <script setup>
 import { computed, ref } from 'vue'
 import categorias from './data/categories.json'
+import estados from './data/estados.json'
 import videos from './data/videos.json'
-import AppSidebar from './components/AppSidebar.vue'
-import SidePanel from './components/SidePanel.vue'
-import VideoCard from './components/VideoCard.vue'
+import AppRail from './components/AppRail.vue'
+import CategoriaCard from './components/CategoriaCard.vue'
+import PipelineCard from './components/PipelineCard.vue'
 import { formatearFecha, normalizar } from './utils.js'
+
+// Enlace para editar la lista de videos directamente en GitHub.
+const URL_EDITAR = 'https://github.com/vloacode/VideoTeca/edit/main/src/data/videos.json'
 
 const categoriaActiva = ref('todos')
 const busqueda = ref('')
-const listaRef = ref(null)
 
 const catById = Object.fromEntries(categorias.map((c) => [c.id, c]))
-const opcionesFiltro = [{ id: 'todos', nombre: 'Todos', icono: 'ti-layout-grid' }, ...categorias]
+const total = videos.length
 const fechaActualizacion = formatearFecha(videos.map((v) => v.guardado).sort().at(-1))
 
 const termino = computed(() => normalizar(busqueda.value.trim()))
-const catActiva = computed(() => (categoriaActiva.value === 'todos' ? null : catById[categoriaActiva.value]))
 
-// Contadores calculados a partir de los datos: nunca quedan desactualizados.
+// Conteos calculados desde los datos: se actualizan solos al agregar videos.
 const conteo = computed(() => {
-  const m = { todos: videos.length }
+  const m = { todos: total }
   for (const c of categorias) m[c.id] = videos.filter((v) => v.categoria === c.id).length
   return m
 })
+
+const categoriasConDatos = computed(() =>
+  categorias.map((c) => ({
+    ...c,
+    n: conteo.value[c.id],
+    pct: total ? Math.round((conteo.value[c.id] / total) * 100) : 0,
+  })),
+)
 
 const filtrados = computed(() =>
   videos.filter((v) => {
@@ -36,159 +46,143 @@ const filtrados = computed(() =>
   }),
 )
 
-const tituloVacio = computed(() => {
-  if (termino.value) return 'Sin resultados para esa búsqueda'
-  if (catActiva.value) return `Todavía no hay videos en ${catActiva.value.nombre}`
-  return 'Todavía no hay videos aquí'
-})
-
-const textoVacio = computed(() =>
-  termino.value
-    ? 'Prueba con otra palabra — el título, el autor o la herramienta que usa el video, como “After Effects”.'
-    : 'Pásale el link a Muse por el chat y lo clasifica, le pone su descripción y aparece en esta categoría en la próxima publicación.',
+// Columnas del pipeline: cada video cae en el estado que tiene en videos.json.
+const columnas = computed(() =>
+  estados.map((e) => ({
+    ...e,
+    items: filtrados.value.filter((v) => v.estado === e.id),
+  })),
 )
 
-function setCat(id, irAlGrid = false) {
-  categoriaActiva.value = id
-  if (irAlGrid) listaRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
+const publicados = computed(() => videos.filter((v) => v.estado === 'publicado').length)
+const pendientes = total - publicados.value
 
-function textoConteo(n) {
-  if (n === 0) return '0 videos'
-  return `${n} ${n === 1 ? 'video' : 'videos'} →`
+// Tocar la misma categoría otra vez quita el filtro.
+function setCat(id) {
+  categoriaActiva.value = categoriaActiva.value === id ? 'todos' : id
 }
 </script>
 
 <template>
-  <div class="vt-shell">
-    <AppSidebar :opciones="opcionesFiltro" :conteo="conteo" :activa="categoriaActiva" @seleccionar="setCat" />
+  <div class="vt-app">
+    <div class="vt-window">
+      <div class="vt-body">
+        <AppRail />
 
-    <main class="vt-main">
-      <div class="vt-topbar">
-        <form class="vt-search" role="search" @submit.prevent>
-          <i class="ti ti-search" aria-hidden="true"></i>
-          <input
-            v-model="busqueda"
-            type="search"
-            placeholder="Busca por título, autor o tema… ej. After Effects"
-            aria-label="Buscar en la videoteca"
-          />
-          <button type="submit" class="vt-search-btn">Buscar</button>
-        </form>
-        <div class="vt-chips" role="group" aria-label="Filtrar por categoría">
-          <button
-            v-for="c in opcionesFiltro"
-            :key="c.id"
-            class="vt-chip"
-            type="button"
-            :aria-pressed="categoriaActiva === c.id ? 'true' : 'false'"
-            @click="setCat(c.id)"
-          >
-            <i class="ti" :class="c.icono" aria-hidden="true"></i>{{ c.nombre }} <small>{{ conteo[c.id] }}</small>
-          </button>
-        </div>
+        <main id="inicio" class="vt-content">
+          <header class="vt-head">
+            <div>
+              <p class="vt-kicker">Videoteca de Wil · {{ categorias.length }} categorías · actualizada el {{ fechaActualizacion }}</p>
+              <h1 class="vt-title">Tu videoteca</h1>
+            </div>
+            <div class="vt-head-actions">
+              <form class="vt-search" role="search" @submit.prevent>
+                <i class="ti ti-search" aria-hidden="true"></i>
+                <input
+                  v-model="busqueda"
+                  type="search"
+                  placeholder="Busca por título, autor o tema…"
+                  aria-label="Buscar en la videoteca"
+                />
+              </form>
+              <a class="vt-btn-dark" :href="URL_EDITAR" target="_blank" rel="noopener">
+                <i class="ti ti-plus" aria-hidden="true"></i>Agregar video
+              </a>
+            </div>
+          </header>
+
+          <section id="categorias" class="vt-agents" aria-label="Categorías">
+            <CategoriaCard
+              v-for="c in categoriasConDatos"
+              :key="c.id"
+              :categoria="c"
+              :activa="categoriaActiva === c.id"
+              @seleccionar="setCat"
+            />
+          </section>
+
+          <section id="pipeline" class="vt-board" aria-labelledby="pipeline-title">
+            <div class="vt-board-head">
+              <div>
+                <h2 id="pipeline-title" class="vt-board-title">Pipeline de videos</h2>
+                <p class="vt-board-sub">
+                  {{ total }} {{ total === 1 ? 'video' : 'videos' }} · {{ publicados }} publicados · {{ pendientes }} pendientes
+                </p>
+              </div>
+              <div class="vt-board-actions">
+                <select v-model="categoriaActiva" class="vt-select" aria-label="Filtrar por categoría">
+                  <option value="todos">Todas las categorías</option>
+                  <option v-for="c in categorias" :key="c.id" :value="c.id">{{ c.nombre }}</option>
+                </select>
+              </div>
+            </div>
+
+            <p class="vt-result-line" aria-live="polite">
+              Mostrando <b>{{ filtrados.length }} de {{ total }}</b>
+              <template v-if="termino"> para “{{ busqueda.trim() }}”</template>
+            </p>
+
+            <div class="vt-columns">
+              <div v-for="col in columnas" :key="col.id" class="vt-col">
+                <div class="vt-col-head">
+                  <span class="vt-dot" :style="{ background: col.color }" aria-hidden="true"></span>
+                  <b>{{ col.nombre }}</b>
+                  <span class="vt-col-count">{{ col.items.length }}</span>
+                </div>
+
+                <PipelineCard
+                  v-for="v in col.items"
+                  :key="v.url"
+                  :video="v"
+                  :categoria="catById[v.categoria]"
+                />
+
+                <p v-if="col.items.length === 0" class="vt-col-empty">{{ col.vacio }}</p>
+              </div>
+            </div>
+          </section>
+
+          <section id="como-crece" class="vt-section" aria-labelledby="how-title">
+            <div class="vt-sec-head">
+              <h2 class="vt-sec-title" id="how-title">Así crece esta página</h2>
+              <p>Tú no editas nada. Solo mandas links; la clasificación, la descripción y la publicación van por Muse.</p>
+            </div>
+            <div class="vt-two-col">
+              <div class="vt-panel">
+                <h3>El flujo, en 3 pasos</h3>
+                <p>El mismo que ya usaste con el primer video:</p>
+                <ol class="vt-steps">
+                  <li>
+                    <span class="n">1</span>
+                    <div><b>Tú pasas el link</b><span>De Instagram, YouTube, TikTok o Facebook — de uno en uno o varios juntos, por el chat.</span></div>
+                  </li>
+                  <li>
+                    <span class="n">2</span>
+                    <div><b>Muse lo ve y lo clasifica</b><span>Lo ubica en su categoría y escribe la descripción breve: de qué trata, quién lo hizo y qué herramientas usa.</span></div>
+                  </li>
+                  <li>
+                    <span class="n">3</span>
+                    <div><b>Se publica aquí</b><span>La página se actualiza con la tarjeta nueva y queda accesible desde cualquier teléfono o computadora.</span></div>
+                  </li>
+                </ol>
+              </div>
+              <div class="vt-panel vt-panel-dark">
+                <span class="vt-price-tag"><i class="ti ti-world" aria-hidden="true"></i>Próximamente · Público</span>
+                <h3>Próximamente será pública para todos</h3>
+                <p>Muy pronto esta videoteca se estará poniendo <strong>pública</strong>, para que cualquier persona pueda conocerla y hacer su propia página igual que esta.</p>
+                <p style="margin: 18px 0 0">La idea es que cada quien pueda guardar sus videos, clasificarlos por tema y tener su colección lista para ver cuando quiera — como la tuya.</p>
+              </div>
+            </div>
+          </section>
+
+          <footer class="vt-footer">
+            <div class="vt-foot">
+              <span><b>Videoteca de Wil</b> · Hecha con <a href="https://github.com/tabler/tabler" target="_blank" rel="noopener">Tabler</a> y <a href="https://vuejs.org" target="_blank" rel="noopener">Vue</a></span>
+              <span>{{ total }} {{ total === 1 ? 'video' : 'videos' }} · Última actualización: {{ fechaActualizacion }} · Publicada en Cloudflare Pages</span>
+            </div>
+          </footer>
+        </main>
       </div>
-
-      <header class="vt-hero">
-        <span class="vt-hero-label">
-          <span class="vt-dot"></span> COLECCIÓN PERSONAL · ACTUALIZADA EL {{ fechaActualizacion.toUpperCase() }}
-        </span>
-        <h1 class="vt-display">Tus videos, <em>clasificados</em> y listos para ver.</h1>
-        <p class="vt-hero-sub">
-          Wil guarda links de todas partes y terminan perdidos entre chats. Aquí no: cada video vive en su categoría —
-          <strong>AI, comidas, restaurantes, edición de imágenes, fotografía, ebanistería</strong> — con una descripción
-          breve de qué trata, para encontrarlo en segundos.
-        </p>
-      </header>
-
-      <section class="vt-section" aria-labelledby="videos-title">
-        <div class="vt-sec-head">
-          <h2 class="vt-sec-title" id="videos-title">Videos</h2>
-          <p class="vt-result-line" aria-live="polite">
-            Mostrando <b>{{ filtrados.length }} de {{ videos.length }}</b>
-            {{ videos.length === 1 ? 'video' : 'videos' }}
-            <template v-if="catActiva"> en <b>{{ catActiva.nombre }}</b></template>
-            <template v-if="termino"> para “{{ busqueda.trim() }}”</template>
-          </p>
-        </div>
-
-        <div id="grid" ref="listaRef" class="vt-grid">
-          <VideoCard
-            v-for="v in filtrados"
-            :key="v.url"
-            :video="v"
-            :categoria="catById[v.categoria]"
-          />
-          <div v-if="filtrados.length === 0" class="vt-empty" role="status">
-            <i class="ti ti-video-off" aria-hidden="true"></i>
-            <h3>{{ tituloVacio }}</h3>
-            <p>{{ textoVacio }}</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="vt-section" aria-labelledby="cats-title">
-        <div class="vt-sec-head">
-          <h2 class="vt-sec-title" id="cats-title">Las categorías</h2>
-          <p>Toca una categoría para filtrar la colección. Las que están en cero están listas — solo falta que lleguen los links.</p>
-        </div>
-        <div class="vt-cats">
-          <button
-            v-for="c in categorias"
-            :key="c.id"
-            class="vt-cat"
-            type="button"
-            @click="setCat(c.id, true)"
-          >
-            <span :class="['vt-ic', c.clase]"><i class="ti" :class="c.icono" aria-hidden="true"></i></span>
-            <b>{{ c.nombre }}</b>
-            <span class="vt-desc">{{ c.descripcion }}</span>
-            <span class="vt-count" :class="{ 'vt-count-on': conteo[c.id] > 0 }">{{ textoConteo(conteo[c.id]) }}</span>
-          </button>
-        </div>
-      </section>
-
-      <section class="vt-section" aria-labelledby="how-title">
-        <div class="vt-sec-head">
-          <h2 class="vt-sec-title" id="how-title">Así crece esta página</h2>
-          <p>Tú no editas nada. Solo mandas links; la clasificación, la descripción y la publicación van por Muse.</p>
-        </div>
-        <div class="vt-two-col">
-          <div class="vt-panel">
-            <h3>El flujo, en 3 pasos</h3>
-            <p>El mismo que ya usaste con el primer video:</p>
-            <ol class="vt-steps">
-              <li>
-                <span class="n">1</span>
-                <div><b>Tú pasas el link</b><span>De Instagram, YouTube, TikTok o Facebook — de uno en uno o varios juntos, por el chat.</span></div>
-              </li>
-              <li>
-                <span class="n">2</span>
-                <div><b>Muse lo ve y lo clasifica</b><span>Lo ubica en su categoría y escribe la descripción breve: de qué trata, quién lo hizo y qué herramientas usa.</span></div>
-              </li>
-              <li>
-                <span class="n">3</span>
-                <div><b>Se publica aquí</b><span>La página se actualiza con la tarjeta nueva y queda accesible desde cualquier teléfono o computadora.</span></div>
-              </li>
-            </ol>
-          </div>
-          <div class="vt-panel vt-panel-dark">
-            <span class="vt-price-tag"><i class="ti ti-world" aria-hidden="true"></i>Próximamente · Público</span>
-            <h3>Próximamente será pública para todos</h3>
-            <p>Muy pronto esta videoteca se estará poniendo <strong>pública</strong>, para que cualquier persona pueda conocerla y hacer su propia página igual que esta.</p>
-            <p style="margin: 18px 0 0">La idea es que cada quien pueda guardar sus videos, clasificarlos por tema y tener su colección lista para ver cuando quiera — como la tuya.</p>
-          </div>
-        </div>
-      </section>
-
-      <footer class="vt-footer">
-        <div class="vt-foot">
-          <span><b>Videoteca de Wil</b> · Página hecha con <a href="https://github.com/tabler/tabler" target="_blank" rel="noopener">Tabler</a> y <a href="https://vuejs.org" target="_blank" rel="noopener">Vue</a></span>
-          <span>{{ videos.length }} {{ videos.length === 1 ? 'video' : 'videos' }} · Última actualización: {{ fechaActualizacion }} · Publicada en Cloudflare Pages</span>
-        </div>
-      </footer>
-    </main>
-
-    <SidePanel />
+    </div>
   </div>
 </template>
