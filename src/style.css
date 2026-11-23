@@ -82,16 +82,15 @@ button{font-family:inherit}
 .vt-chev{font-size:14px;transition:transform .2s}
 .vt-chev.is-closed{transform:rotate(-90deg)}
 .vt-tree-list{list-style:none;margin:0;padding:0;display:grid;gap:2px}
-.vt-tree-item,.vt-tree-static{
+.vt-tree-item{
   display:flex;align-items:center;gap:10px;width:100%;box-sizing:border-box;
   padding:7px 12px;border:0;border-radius:10px;background:transparent;cursor:pointer;
   font:inherit;font-size:.88rem;color:var(--ink-2);text-align:left;min-height:36px;
 }
-.vt-tree-static{cursor:default}
 .vt-tree-item:hover{background:var(--surface-2);color:var(--ink)}
 .vt-tree-item.is-on{background:var(--surface-2);color:var(--ink);font-weight:600}
-.vt-tree-item small,.vt-tree-static small{margin-left:auto;font-size:.75rem;color:var(--ink-3)}
-.vt-tree-static .ti{font-size:16px;color:var(--ink-3)}
+.vt-tree-item small{margin-left:auto;font-size:.75rem;color:var(--ink-3)}
+.vt-tree-ico{font-size:16px;color:var(--ink-3);flex:none}
 .vt-tree-dot{width:9px;height:9px;border-radius:3px;flex:none}
 .vt-tree-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 

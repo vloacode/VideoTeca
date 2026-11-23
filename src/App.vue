@@ -11,6 +11,7 @@ import VideoDetalle from './components/VideoDetalle.vue'
 import { formatearFecha, normalizar } from './utils.js'
 
 const categoriaActiva = ref('todos')
+const plataformaActiva = ref('todas')
 const busqueda = ref('')
 const detalle = ref(null)
 
@@ -31,6 +32,7 @@ const categoriasConDatos = computed(() => categorias.map((c) => ({ ...c, n: cont
 const filtrados = computed(() =>
   videos.filter((v) => {
     if (categoriaActiva.value !== 'todos' && v.categoria !== categoriaActiva.value) return false
+    if (plataformaActiva.value !== 'todas' && v.plataforma !== plataformaActiva.value) return false
     if (!termino.value) return true
     const texto = normalizar(
       [v.titulo, v.autor, v.usuario, v.descripcion, v.plataforma, catById[v.categoria]?.nombre, ...(v.herramientas || [])].join(' '),
@@ -58,6 +60,7 @@ const mensajeVacio = computed(() => {
     return 'Sin resultados para esa búsqueda. Prueba con el título, el autor o la herramienta que usa el video, como “After Effects”.'
   }
   if (catActiva.value) return `Todavía no hay videos en ${catActiva.value.nombre}.`
+  if (plataformaActiva.value !== 'todas') return `Todavía no hay videos de ${plataformaActiva.value}.`
   return 'Todavía no hay videos aquí.'
 })
 
@@ -75,9 +78,15 @@ function abrirDetalle(video) {
   detalle.value = video
 }
 
-// Tocar la misma categoría otra vez quita el filtro.
+// Tocar la misma categoría otra vez quita el filtro. "Todas" quita también el de plataforma.
 function setCat(id) {
   categoriaActiva.value = categoriaActiva.value === id ? 'todos' : id
+  if (id === 'todos') plataformaActiva.value = 'todas'
+}
+
+// Tocar la misma plataforma otra vez quita el filtro.
+function setPlataforma(nombre) {
+  plataformaActiva.value = plataformaActiva.value === nombre ? 'todas' : nombre
 }
 </script>
 
@@ -86,8 +95,10 @@ function setCat(id) {
     <AppSidebar
       :categorias="categoriasConDatos"
       :activa="categoriaActiva"
+      :plataforma-activa="plataformaActiva"
       :total="total"
       @seleccionar="setCat"
+      @seleccionar-plataforma="setPlataforma"
     />
 
     <main class="vt-main">
@@ -155,6 +166,7 @@ function setCat(id) {
               Mostrando <b>{{ filtrados.length }} de {{ total }}</b>
               {{ total === 1 ? 'video' : 'videos' }}
               <template v-if="catActiva"> en <b>{{ catActiva.nombre }}</b></template>
+              <template v-if="plataformaActiva !== 'todas'"> · <b>{{ plataformaActiva }}</b></template>
               <template v-if="termino"> para “{{ busqueda.trim() }}”</template>
             </p>
           </div>

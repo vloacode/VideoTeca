@@ -5,9 +5,10 @@ import videos from '../data/videos.json'
 defineProps({
   categorias: { type: Array, required: true },
   activa: { type: String, required: true },
+  plataformaActiva: { type: String, default: 'todas' },
   total: { type: Number, required: true },
 })
-defineEmits(['seleccionar'])
+defineEmits(['seleccionar', 'seleccionarPlataforma'])
 
 // URL para editar la lista de videos directamente en GitHub.
 const URL_EDITAR = 'https://github.com/vloacode/VideoTeca/edit/main/src/data/videos.json'
@@ -39,7 +40,7 @@ const abiertoPlataformas = ref(true)
     <nav class="vt-side-nav" aria-label="Secciones">
       <button
         class="vt-nav-item"
-        :class="{ 'is-on': activa === 'todos' }"
+        :class="{ 'is-on': activa === 'todos' && plataformaActiva === 'todas' }"
         type="button"
         @click="$emit('seleccionar', 'todos')"
       >
@@ -75,10 +76,18 @@ const abiertoPlataformas = ref(true)
         <i class="ti ti-chevron-down vt-chev" :class="{ 'is-closed': !abiertoPlataformas }" aria-hidden="true"></i>Plataformas
       </button>
       <ul v-show="abiertoPlataformas" class="vt-tree-list">
-        <li v-for="p in plataformas" :key="p.nombre" class="vt-tree-static">
-          <i class="ti" :class="p.icono" aria-hidden="true"></i>
-          <span class="vt-tree-name">{{ p.nombre }}</span>
-          <small>{{ p.n }}</small>
+        <li v-for="p in plataformas" :key="p.nombre">
+          <button
+            class="vt-tree-item"
+            :class="{ 'is-on': plataformaActiva === p.nombre }"
+            type="button"
+            :aria-pressed="plataformaActiva === p.nombre ? 'true' : 'false'"
+            @click="$emit('seleccionarPlataforma', p.nombre)"
+          >
+            <i class="ti vt-tree-ico" :class="p.icono" aria-hidden="true"></i>
+            <span class="vt-tree-name">{{ p.nombre }}</span>
+            <small>{{ p.n }}</small>
+          </button>
         </li>
       </ul>
     </div>
