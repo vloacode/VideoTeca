@@ -5390,5 +5390,46 @@
     "portada": "La portada muestra el panel de AI Video Studio dentro de DaVinci Resolve generando video con IA.",
     "estado": "publicado",
     "guardado": "2026-11-24"
+  },
+  {
+    "titulo": "Codex, LM Studio y Claude editando en DaVinci Resolve gratis",
+    "autor": "The Frizzy1",
+    "usuario": "@the_frizzy1",
+    "url": "https://www.youtube.com/watch?v=Golrfwdwkfg",
+    "plataforma": "YouTube",
+    "formato": "Video",
+    "categoria": "ai",
+    "descripcion": "Edición con IA en la versión gratis de DaVinci Resolve, sin Studio ni suscripción: el puente MCP corre dentro de Resolve y conecta a Claude, Codex o una IA local con LM Studio y Qwen en una RTX 3060. Compara tiempos reales (20 min local vs 44 s con Codex) y hace una edición completa y motion graphics con Remotion.",
+    "herramientas": [
+      "DaVinci Resolve gratis",
+      "MCP bridge",
+      "LM Studio",
+      "Qwen3",
+      "Codex",
+      "Claude",
+      "Remotion"
+    ],
+    "portada": "La portada muestra la línea de tiempo de DaVinci Resolve siendo editada por una IA local.",
+    "estado": "publicado",
+    "guardado": "2026-11-24"
+  },
+  {
+    "titulo": "Claude edita un video completo en DaVinci Resolve",
+    "autor": "Jason Cooperson",
+    "usuario": "@jasoncooperson",
+    "url": "https://www.youtube.com/watch?v=fSJh8etPngU",
+    "plataforma": "YouTube",
+    "formato": "Video",
+    "categoria": "ai",
+    "descripcion": "Configuración completa para que Claude tome el control de DaVinci Resolve con el puente MCP: corta el metraje, crea motion graphics, pone títulos, hace color y exporta, todo en vivo y con cronómetro. Según el autor, la versión gratis de Resolve debería funcionar; lo único de pago es Claude Code.",
+    "herramientas": [
+      "DaVinci Resolve",
+      "Claude Code",
+      "DaVinci Resolve MCP",
+      "HyperFrames"
+    ],
+    "portada": "La portada muestra a Claude editando la línea de tiempo de DaVinci Resolve de forma autónoma.",
+    "estado": "publicado",
+    "guardado": "2026-11-24"
   }
 ]
