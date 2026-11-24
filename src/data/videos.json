@@ -5368,5 +5368,27 @@
     "portada": "La portada muestra DaVinci Resolve junto al flujo de conexión MCP con un asistente de IA.",
     "estado": "publicado",
     "guardado": "2026-11-24"
+  },
+  {
+    "titulo": "Este plugin de DaVinci Resolve reemplaza todas las plataformas de IA",
+    "autor": "Kevin Van der Marliere",
+    "usuario": "@kevinvandermarliere",
+    "url": "https://www.youtube.com/watch?v=U9Oz1DgJlTg",
+    "plataforma": "YouTube",
+    "formato": "Video",
+    "categoria": "ai",
+    "descripcion": "Recorrido por AI Video Studio V3, un plugin que pone todos los modelos de IA de video, imagen y 3D dentro de DaVinci Resolve, conectados a la línea de tiempo. Genera el plano, lo arrastra al edit y sigue cortando; renderiza en la nube con fal.ai, en Comfy Cloud o gratis y local en tu propia GPU. Incluye transiciones con IA, relight, reframe, upscale y un asistente de IA integrado.",
+    "herramientas": [
+      "DaVinci Resolve",
+      "AI Video Studio V3",
+      "fal.ai",
+      "ComfyUI",
+      "Comfy Cloud",
+      "Minimax Hailuo",
+      "Seedance"
+    ],
+    "portada": "La portada muestra el panel de AI Video Studio dentro de DaVinci Resolve generando video con IA.",
+    "estado": "publicado",
+    "guardado": "2026-11-24"
   }
 ]
