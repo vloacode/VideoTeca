@@ -559,22 +559,6 @@
   "guardado": "2026-11-22"
  },
  {
-  "titulo": "Limpia el halo blanco de un recorte en Photoshop",
-  "autor": "Parsa sadeghi",
-  "usuario": "@editor.fastt",
-  "url": "https://www.instagram.com/reel/DfzJwJ_N7RP/",
-  "plataforma": "Instagram",
-  "formato": "Reel",
-  "categoria": "edicion",
-  "descripcion": "Un tutorial muestra cómo limpiar el halo blanco que queda al recortar un retrato, con selección de sujeto y filtro mínimo.",
-  "herramientas": [
-   "Photoshop"
-  ],
-  "portada": "Editor en su escritorio con luces LED trabajando en un retrato recortado.",
-  "estado": "publicado",
-  "guardado": "2026-11-22"
- },
- {
   "titulo": "Dodge & Burn profesional con la curva en M",
   "autor": "BYPULAK | HIGH END RETOUCHING",
   "usuario": "@bypulak",
@@ -4154,6 +4138,20 @@
   "guardado": "2026-11-22"
  },
  {
+  "titulo": "Vacaciones en familia en los Alpes austríacos",
+  "autor": "Familien Bauernhof Resort Habachklause",
+  "usuario": "@hotelhabachklause",
+  "url": "https://facebook.com/reel/1069739642702485/",
+  "plataforma": "Facebook",
+  "formato": "Reel",
+  "categoria": "viajes",
+  "descripcion": "Un resort familiar en los Alpes de Austria: aventuras en la montaña, juegos, piscinas, spa y buena comida, pensado para los niños y para que los padres también descansen.",
+  "herramientas": [],
+  "portada": "Un resort familiar entre montañas en Austria.",
+  "estado": "publicado",
+  "guardado": "2026-11-22"
+ },
+ {
   "titulo": "El Arca de Noé a tamaño real en Kentucky",
   "autor": "Romantic.atlanta",
   "usuario": "Romantic.atlanta",
@@ -5621,5 +5619,113 @@
   "portada": "Un trabajador arma el encofrado de madera con una parrilla de varillas de acero para una meseta de cocina de concreto.",
   "estado": "publicado",
   "guardado": "2026-11-24"
+ },
+ {
+  "titulo": "Generador de videos con IA gratis y de código abierto",
+  "autor": "AI After Hours | AI, Product & Growth",
+  "usuario": "@ai_afterhoursss",
+  "url": "https://www.instagram.com/reel/DgDzdZly1f6/",
+  "plataforma": "Instagram",
+  "formato": "Reel",
+  "categoria": "ai",
+  "descripcion": "Una alternativa gratuita y de código abierto a los generadores de video con IA de pago, con generación de video, imagen, lip sync y música.",
+  "herramientas": [],
+  "portada": "Presentador a cámara hablando del generador de video con IA gratuito.",
+  "estado": "publicado",
+  "guardado": "2026-11-25"
+ },
+ {
+  "titulo": "Ordena todas tus fotos con una frase a Claude Code",
+  "autor": "Antonio Prado",
+  "usuario": "@processingraw",
+  "url": "https://www.instagram.com/reel/Dfh0_D6jaim/",
+  "plataforma": "Instagram",
+  "formato": "Reel",
+  "categoria": "ai",
+  "descripcion": "Con una sola frase, Claude Code organiza una carpeta de fotos por años, meses y días de evento, separando los RAW de los JPG.",
+  "herramientas": [
+   "Claude Code"
+  ],
+  "portada": "Creador explicando su sistema de carpetas por fecha para organizar fotos.",
+  "estado": "publicado",
+  "guardado": "2026-11-25"
+ },
+ {
+  "titulo": "Atajos de Photoshop 2026 que debes conocer",
+  "autor": "Duy Ngọc Nguyễn",
+  "usuario": "@benocds",
+  "url": "https://www.instagram.com/reel/DfMybzbztlO/",
+  "plataforma": "Instagram",
+  "formato": "Reel",
+  "categoria": "edicion",
+  "descripcion": "Atajos esenciales de Photoshop 2026 para agilizar la edición de fotos y el diseño gráfico.",
+  "herramientas": [
+   "Photoshop"
+  ],
+  "portada": "Demostración en pantalla de atajos de teclado en Photoshop.",
+  "estado": "publicado",
+  "guardado": "2026-11-25"
+ },
+ {
+  "titulo": "Claude Code edita tus videos en DaVinci Resolve con MCP",
+  "autor": "Seb Intel",
+  "usuario": "@sebintel",
+  "url": "https://www.instagram.com/reel/DdyoqD9laUO/",
+  "plataforma": "Instagram",
+  "formato": "Reel",
+  "categoria": "ai",
+  "descripcion": "El servidor MCP de DaVinci Resolve permite que Claude Code o Codex editen video: corrección de color, multicámara, sonido y B-roll generado por IA.",
+  "herramientas": [
+   "DaVinci Resolve",
+   "Claude Code",
+   "MCP"
+  ],
+  "portada": "Grabación de pantalla de DaVinci Resolve con el asistente de IA editando.",
+  "estado": "publicado",
+  "guardado": "2026-11-25"
+ },
+ {
+  "titulo": "El secreto para armar la caja infinita",
+  "autor": "Cris Ramos",
+  "usuario": "@crisramoscom",
+  "url": "https://www.instagram.com/reel/DP7PlYXkq8O/",
+  "plataforma": "Instagram",
+  "formato": "Reel",
+  "categoria": "manualidades",
+  "descripcion": "Tutorial para armar una caja infinita decorativa, paso a paso.",
+  "herramientas": [],
+  "portada": "Caja infinita decorada con rosas abriéndose en capas.",
+  "estado": "publicado",
+  "guardado": "2026-11-25"
+ },
+ {
+  "titulo": "Textura Dholpuri en pared con pintura Berger",
+  "autor": "Vinod Kumar Varma",
+  "usuario": "@varma.vinodkumar",
+  "url": "https://www.instagram.com/reel/DPMS52zCPjp/",
+  "plataforma": "Instagram",
+  "formato": "Reel",
+  "categoria": "construccion",
+  "descripcion": "Cómo crear un acabado de textura Dholpuri en una pared usando pintura Berger, paso a paso.",
+  "herramientas": [
+   "Berger Paints"
+  ],
+  "portada": "Pared con acabado de textura Dholpuri en tonos piedra.",
+  "estado": "publicado",
+  "guardado": "2026-11-25"
+ },
+ {
+  "titulo": "Velas artesanales con efecto porcelana",
+  "autor": "Iluminate Con Velas",
+  "usuario": "@iluminate.con.velas",
+  "url": "https://www.instagram.com/reel/DOg2XA5D4FZ/",
+  "plataforma": "Instagram",
+  "formato": "Reel",
+  "categoria": "manualidades",
+  "descripcion": "Cómo hacer velas artesanales de soya con efecto porcelana, con materiales sencillos y fáciles de conseguir.",
+  "herramientas": [],
+  "portada": "Velas artesanales blancas con acabado brillante tipo porcelana.",
+  "estado": "publicado",
+  "guardado": "2026-11-25"
  }
 ]
